@@ -115,6 +115,7 @@ const INDEX_HTML: &str = r#"<!DOCTYPE html>
       --tt-space-3: 1.25rem;
       --tt-space-4: 2rem;
       --tt-space-5: 3rem;
+      --tt-space-6: 4rem;
       --tt-radius: 10px;
       --tt-shadow: 0 14px 40px -18px rgba(23, 37, 29, .28);
       --tt-ease: cubic-bezier(.22, .61, .36, 1);
@@ -202,7 +203,7 @@ const INDEX_HTML: &str = r#"<!DOCTYPE html>
     main {
       max-width: 840px;
       margin-inline: auto;
-      padding: var(--tt-space-5) var(--tt-gutter) var(--tt-space-6);
+      padding: calc(var(--tt-space-6) + var(--tt-space-2)) var(--tt-gutter) var(--tt-space-5);
     }
 
     .tt-eyebrow {
@@ -435,8 +436,8 @@ const INDEX_HTML: &str = r#"<!DOCTYPE html>
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand" href="/">
-        <span class="brand__mark" aria-hidden="true">TH</span>
-        <span class="brand__word">Terra<strong>Hub</strong><small>TerraTactics gateway</small></span>
+        <span class="brand__mark" aria-hidden="true">TT</span>
+        <span class="brand__word">Terra<strong>Tactics</strong><small>TerraHub Gateway</small></span>
       </a>
       <p class="header-meta">Local setup</p>
     </div>
