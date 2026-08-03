@@ -9,9 +9,10 @@ use tracing::debug;
 
 use super::{RadioError, RadioTransport, WireFrame};
 
-/// Loopback-capable stub: `inject` queues frames for `recv`; `send` logs and optionally echoes.
+/// Loopback-capable stub: `inject` queues frames for `recv`; `send` records TX for tests.
 pub struct StubRadio {
     inbound: Mutex<VecDeque<WireFrame>>,
+    outbound: Mutex<VecDeque<WireFrame>>,
     notify: Notify,
 }
 
@@ -19,14 +20,20 @@ impl StubRadio {
     pub fn new() -> Self {
         Self {
             inbound: Mutex::new(VecDeque::new()),
+            outbound: Mutex::new(VecDeque::new()),
             notify: Notify::new(),
         }
     }
 
     /// Test helper: push a frame as if the coprocessor received it over the air.
     pub fn inject(&self, frame: WireFrame) {
-        self.inbound.lock().expect("stub queue").push_back(frame);
+        self.inbound.lock().expect("stub mutex").push_back(frame);
         self.notify.notify_one();
+    }
+
+    /// Frames previously passed to [`RadioTransport::send`] (oldest first).
+    pub fn drain_tx(&self) -> Vec<WireFrame> {
+        self.outbound.lock().expect("stub outbound").drain(..).collect()
     }
 }
 
@@ -43,7 +50,11 @@ impl RadioTransport for StubRadio {
     }
 
     async fn send(&self, frame: &[u8]) -> Result<(), RadioError> {
-        debug!(len = frame.len(), "stub radio TX (dropped)");
+        debug!(len = frame.len(), "stub radio TX");
+        self.outbound
+            .lock()
+            .expect("stub outbound")
+            .push_back(frame.to_vec());
         Ok(())
     }
 
