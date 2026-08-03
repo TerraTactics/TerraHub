@@ -1,0 +1,37 @@
+[package]
+name = "terrahub"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "TerraHub agricultural edge gateway — TerraLink mesh to FarmPilot cloud"
+license = "Apache-2.0"
+repository = "https://github.com/TerraTactics/TerraHub"
+homepage = "https://github.com/TerraTactics/TerraHub"
+readme = "README.md"
+keywords = ["agriculture", "iot", "gateway", "lora", "mqtt"]
+categories = ["network-programming"]
+
+[[bin]]
+name = "terrahub"
+path = "src/main.rs"
+
+[dependencies]
+# Sibling checkout: keep TerraLink next to TerraHub during local development.
+# CI / remote builds can switch to:
+#   terralink = { git = "https://github.com/TerraTactics/TerraLink.git", branch = "main" }
+terralink = { path = "../TerraLink", version = "0.1.0" }
+anyhow = "1"
+thiserror = "1"
+async-trait = "0.1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "sync", "time"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+rusqlite = { version = "0.32", features = ["bundled"] }
+axum = "0.8"
+tower-http = { version = "0.6", features = ["trace"] }
+
+[dev-dependencies]
+tempfile = "3"

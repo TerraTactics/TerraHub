@@ -1,0 +1,24 @@
+# TerraHub example configuration (copy to /etc/terrahub/config.toml on device)
+
+[hub]
+# Stable gateway identity (factory or first-boot generated)
+identity = "GW-DEV00001"
+
+[radio]
+# Transport: "stub" (default), later "uart" / "usb-serial"
+backend = "stub"
+# device = "/dev/ttyAMA0"
+# baud = 115200
+
+[buffer]
+sqlite_path = "data/terrahub.db"
+
+[cloud]
+# MQTT placeholder — FarmPilot broker details applied after pairing
+enabled = false
+# broker_url = "mqtts://mqtt.farmpilot.example:8883"
+# client_id = "GW-DEV00001"
+
+[admin]
+# Local setup wizard only (not day-to-day farm ops)
+bind = "127.0.0.1:8080"

@@ -1,0 +1,24 @@
+[Unit]
+Description=TerraHub agricultural edge gateway
+Documentation=https://github.com/TerraTactics/TerraHub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=terrahub
+Group=terrahub
+ExecStart=/usr/local/bin/terrahub --config /etc/terrahub/config.toml
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/var/lib/terrahub
+Environment=RUST_LOG=info
+
+# Hardening (adjust for serial device access as needed)
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/terrahub /etc/terrahub
+
+[Install]
+WantedBy=multi-user.target
