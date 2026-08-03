@@ -14,9 +14,9 @@ backend = "stub"
 sqlite_path = "data/terrahub.db"
 
 [cloud]
-# MQTT placeholder — FarmPilot broker details applied after pairing
+# MQTT placeholder — TerraTactics cloud broker details applied after pairing
 enabled = false
-# broker_url = "mqtts://mqtt.farmpilot.example:8883"
+# broker_url = "mqtts://mqtt.terratactics.example:8883"
 # client_id = "GW-DEV00001"
 
 [admin]

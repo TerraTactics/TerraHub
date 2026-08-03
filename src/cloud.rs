@@ -1,4 +1,4 @@
-//! FarmPilot cloud agent stub (MQTT placeholder).
+//! TerraTactics cloud agent stub (MQTT placeholder).
 
 use std::sync::{Arc, Mutex};
 use std::time::Duration;

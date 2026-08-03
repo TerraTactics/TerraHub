@@ -446,8 +446,8 @@ const INDEX_HTML: &str = r#"<!DOCTYPE html>
     <p class="tt-eyebrow">Gateway setup</p>
     <h1>Bring this hub onto your farm mesh</h1>
     <p class="lead">
-      Configure radio, identity, and FarmPilot pairing here.
-      Day-to-day device claiming stays in FarmPilot — not this local wizard.
+      Configure radio, identity, and TerraTactics cloud pairing here.
+      Day-to-day device claiming stays in the TerraTactics cloud — not this local wizard.
     </p>
 
     <section class="panel" aria-labelledby="status-heading">
@@ -485,8 +485,8 @@ const INDEX_HTML: &str = r#"<!DOCTYPE html>
     </section>
 
     <aside class="notice">
-      <strong>FarmPilot is separate</strong>
-      Claiming pre-built TerraLink nodes and day-to-day farm ops happen in the FarmPilot cloud product.
+      <strong>TerraTactics cloud is separate</strong>
+      Claiming pre-built TerraLink nodes and day-to-day farm ops happen in the TerraTactics cloud tenant portal.
       This page is local LAN setup only.
     </aside>
   </main>
@@ -591,9 +591,9 @@ async fn setup_placeholder() -> Json<serde_json::Value> {
         "steps": [
             "Set hub identity / hostname",
             "Configure radio serial device",
-            "Pair with FarmPilot (token exchange TBD)",
+            "Pair with TerraTactics cloud (token exchange TBD)",
             "Confirm TerraLink mesh hearability"
         ],
-        "note": "Farm device claim UX is in FarmPilot, not this admin UI"
+        "note": "Farm device claim UX is in the TerraTactics cloud, not this admin UI"
     }))
 }

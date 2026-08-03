@@ -61,7 +61,7 @@ impl TerraLinkStack {
                     claim: ClaimState::Pending,
                     last_seen_seq: frame.header.sequence,
                 });
-                info!(%identity, "discovery noted (claim via FarmPilot)");
+                info!(%identity, "discovery noted (claim via TerraTactics cloud)");
             }
             PacketType::SensorData | PacketType::Alarm => {
                 if let Err(err) = self.buffer.lock().expect("buffer mutex").enqueue_telemetry(
