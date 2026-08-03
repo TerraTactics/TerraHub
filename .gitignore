@@ -11,3 +11,7 @@ package-lock.json
 branding/_tools/node_modules/
 branding/_tools/package-lock.json
 branding/_tools/*.tgz
+
+__pycache__/
+*.pyc
+
