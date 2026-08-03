@@ -12,7 +12,7 @@ use terrahub::admin;
 use terrahub::buffer::OfflineBuffer;
 use terrahub::cloud::CloudAgent;
 use terrahub::config::HubConfig;
-use terrahub::radio::{stub::StubRadio, RadioTransport};
+use terrahub::radio::build_radio;
 use terrahub::registry::DeviceRegistry;
 use terrahub::stack::TerraLinkStack;
 
@@ -32,7 +32,14 @@ async fn main() -> Result<()> {
         .with_context(|| format!("load config from {}", config_path.display()))?;
     info!(identity = %config.hub.identity, "starting TerraHub");
 
-    let radio: Arc<dyn RadioTransport> = Arc::new(StubRadio::new());
+    let radio = build_radio(
+        &config.radio.backend,
+        config.radio.device.as_deref(),
+        config.radio.baud,
+    )
+    .context("configure radio backend")?;
+    info!(backend = radio.name(), "radio transport ready");
+
     let registry = Arc::new(RwLock::new(DeviceRegistry::new()));
     let buffer = OfflineBuffer::open(&config.buffer.sqlite_path)
         .with_context(|| format!("open sqlite at {}", config.buffer.sqlite_path.display()))?;
@@ -43,6 +50,7 @@ async fn main() -> Result<()> {
         Arc::clone(&radio),
         Arc::clone(&registry),
         Arc::clone(&buffer),
+        config.hub.routing_addr,
     ));
 
     let stack_rx = Arc::clone(&stack);
@@ -54,12 +62,20 @@ async fn main() -> Result<()> {
 
     let cloud_task = Arc::clone(&cloud);
     let buffer_task = Arc::clone(&buffer);
+    let stack_task = Arc::clone(&stack);
     tokio::spawn(async move {
-        cloud_task.run_sync_loop(buffer_task).await;
+        cloud_task.run_sync_loop(buffer_task, stack_task).await;
     });
 
     info!(bind = %config.admin.bind, "admin HTTP listening (setup wizard stubs)");
-    admin::serve(&config.admin.bind, Arc::clone(&registry), config.hub.identity.clone()).await?;
+    admin::serve(
+        &config.admin.bind,
+        Arc::clone(&registry),
+        config.hub.identity.clone(),
+        Arc::clone(&stack),
+        Arc::clone(&cloud),
+    )
+    .await?;
 
     Ok(())
 }

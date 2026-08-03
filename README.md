@@ -6,24 +6,24 @@ TerraHub runs on Debian-based SBCs (Raspberry Pi, Radxa, Orange Pi, and similar)
 
 ## Role
 
-- Manage TerraLink routing via a LoRa radio coprocessor
+- Manage TerraLink routing via a LoRa radio coprocessor (UART / USB-serial)
 - Buffer telemetry offline (SQLite) and sync when connectivity returns
 - Run local automation when the internet is unavailable
 - Provide a local web/admin UI for gateway setup and TerraTactics cloud pairing
 - Discover and onboard pre-built TerraLink nodes (claiming happens in the TerraTactics cloud)
 
-## Architecture (skeleton)
+## Architecture
 
 ```
 TerraHub (Linux / Debian)
-├── radio/          RadioTransport trait — stub today; UART/USB-serial later
-├── stack/          TerraLink RX dispatch (uses `terralink` crate)
+├── radio/          RadioTransport — stub, UART loopback, or real serial
+├── stack/          TerraLink RX dispatch + claim → Configuration 0x07
 ├── registry/       Discovered / claimed device table
 ├── buffer/         SQLite offline telemetry queue
-├── cloud/          TerraTactics cloud MQTT agent placeholder
-└── admin/          Local HTTP setup wizard stubs (axum)
+├── cloud/          TerraTactics cloud MQTT agent placeholder + claim stub
+└── admin/          Local HTTP setup wizard (axum)
          │
-         │ UART / USB-serial (future)
+         │ UART / USB-serial (length-prefixed TerraLink frames)
          ▼
    LoRa coprocessor (ESP32 + radio, etc.)
 ```
@@ -37,12 +37,52 @@ Requires Rust 1.74+ and a sibling checkout of [TerraLink](https://github.com/Ter
 ```bash
 # from TerraHub/
 cargo build --release
+cargo test
 cargo run -- --config config/terrahub.example.toml
 ```
 
-Admin UI (setup only): <http://127.0.0.1:8080/> — status JSON at `/api/status`.
+### Admin preview
+
+With the daemon running:
+
+- UI: <http://127.0.0.1:8080/>
+- Status JSON: <http://127.0.0.1:8080/api/status>
+- Claim stub (after a node has been discovered):
+
+```bash
+curl -s -X POST http://127.0.0.1:8080/api/devices/claim \
+  -H "content-type: application/json" \
+  -d '{"identity":"TL-000127","routing_addr":66}'
+```
+
+Keep the `cargo run` process running (or install the systemd unit) so the preview stays up.
 
 The local setup pages reuse TerraTactics visual tokens (olive / ivory / gold) and load **Jost** + **DM Sans** from Google Fonts when the hub has outbound HTTPS; without network they fall back to `system-ui` / `Segoe UI`.
+
+### Radio backends
+
+| `radio.backend` | Purpose |
+|-----------------|---------|
+| `stub` | Default in-memory transport (no serial) |
+| `loopback` | Same UART framing as hardware, in-memory (tests) |
+| `uart` / `usb-serial` | Real serial to the LoRa coprocessor |
+
+Example UART config:
+
+```toml
+[radio]
+backend = "uart"
+device = "/dev/ttyUSB0"   # Linux; on Windows use e.g. "COM3"
+baud = 115200
+```
+
+On-wire UART framing: little-endian `u16` length, then a complete TerraLink frame (header + payload + CRC-16/MODBUS).
+
+### Discovery → claim → config
+
+1. Node sends Discovery (`0x04`) → hub registry marks **pending**
+2. TerraTactics cloud (or local `POST /api/devices/claim`) issues a claim with a routing address
+3. Hub sends Configuration (`0x07`) over the radio and marks the device **claimed**
 
 ### Debian / Raspberry Pi
 

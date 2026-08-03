@@ -3,8 +3,11 @@
 use async_trait::async_trait;
 use thiserror::Error;
 
+pub mod framing;
 pub mod stub;
 pub mod uart;
+
+pub use uart::build_radio;
 
 /// Errors from the radio backend.
 #[derive(Debug, Error)]

@@ -14,6 +14,7 @@ pub struct DeviceRecord {
     pub routing_addr: u16,
     pub claim: ClaimState,
     pub last_seen_seq: u16,
+    pub node_class: Option<u8>,
 }
 
 #[derive(Debug, Default)]
@@ -27,8 +28,7 @@ impl DeviceRegistry {
     }
 
     pub fn upsert(&mut self, record: DeviceRecord) {
-        self.by_identity
-            .insert(record.identity.clone(), record);
+        self.by_identity.insert(record.identity.clone(), record);
     }
 
     pub fn get(&self, identity: &str) -> Option<&DeviceRecord> {
@@ -47,5 +47,36 @@ impl DeviceRegistry {
         } else {
             false
         }
+    }
+
+    /// Pending discoveries awaiting TerraTactics cloud / admin claim.
+    pub fn pending(&self) -> Vec<DeviceRecord> {
+        self.by_identity
+            .values()
+            .filter(|d| d.claim == ClaimState::Pending)
+            .cloned()
+            .collect()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn mark_claimed_updates_addr() {
+        let mut reg = DeviceRegistry::new();
+        reg.upsert(DeviceRecord {
+            identity: "TL-1".into(),
+            routing_addr: 0,
+            claim: ClaimState::Pending,
+            last_seen_seq: 1,
+            node_class: Some(1),
+        });
+        assert!(reg.mark_claimed("TL-1", 42));
+        let rec = reg.get("TL-1").unwrap();
+        assert_eq!(rec.claim, ClaimState::Claimed);
+        assert_eq!(rec.routing_addr, 42);
+        assert!(!reg.mark_claimed("missing", 1));
     }
 }

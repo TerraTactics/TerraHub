@@ -4,3 +4,10 @@
 data/
 *.db
 *.db-journal
+node_modules/
+package.json
+package-lock.json
+*.tgz
+branding/_tools/node_modules/
+branding/_tools/package-lock.json
+branding/_tools/*.tgz

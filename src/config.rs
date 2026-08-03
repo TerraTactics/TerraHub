@@ -17,6 +17,13 @@ pub struct HubConfig {
 #[derive(Debug, Clone, Deserialize)]
 pub struct HubSection {
     pub identity: String,
+    /// Hub routing address on the TerraLink mesh (default `1`).
+    #[serde(default = "default_hub_routing_addr")]
+    pub routing_addr: u16,
+}
+
+fn default_hub_routing_addr() -> u16 {
+    1
 }
 
 #[derive(Debug, Clone, Deserialize)]

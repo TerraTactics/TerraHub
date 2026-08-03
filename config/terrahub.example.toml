@@ -3,11 +3,19 @@
 [hub]
 # Stable gateway identity (factory or first-boot generated)
 identity = "GW-DEV00001"
+# Routing address assigned to this hub on the TerraLink mesh
+routing_addr = 1
 
 [radio]
-# Transport: "stub" (default), later "uart" / "usb-serial"
+# Transport:
+#   "stub"       — in-memory (default; no serial hardware)
+#   "loopback"   — UART framing over an in-memory pipe (tests / bring-up)
+#   "uart"       — real UART / USB-serial to LoRa coprocessor
+#   "usb-serial" — alias for "uart"
 backend = "stub"
-# device = "/dev/ttyAMA0"
+# Linux examples: "/dev/ttyUSB0", "/dev/ttyAMA0", "/dev/serial0"
+# Windows example: "COM3"
+# device = "/dev/ttyUSB0"
 # baud = 115200
 
 [buffer]

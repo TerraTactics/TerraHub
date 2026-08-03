@@ -6,19 +6,24 @@
 use std::sync::Arc;
 
 use axum::extract::State;
+use axum::http::StatusCode;
 use axum::response::Html;
-use axum::routing::get;
+use axum::routing::{get, post};
 use axum::{Json, Router};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use tokio::sync::RwLock;
 use tower_http::trace::TraceLayer;
 
+use crate::cloud::CloudAgent;
 use crate::registry::{ClaimState, DeviceRegistry};
+use crate::stack::TerraLinkStack;
 
 #[derive(Clone)]
 struct AppState {
     hub_identity: String,
     registry: Arc<RwLock<DeviceRegistry>>,
+    stack: Arc<TerraLinkStack>,
+    cloud: Arc<CloudAgent>,
 }
 
 #[derive(Serialize)]
@@ -34,21 +39,44 @@ struct DeviceDto {
     identity: String,
     routing_addr: u16,
     claim: &'static str,
+    node_class: Option<u8>,
+}
+
+#[derive(Deserialize)]
+struct ClaimRequest {
+    identity: String,
+    routing_addr: u16,
+    /// When true, enqueue via cloud stub (asynchronous); otherwise apply immediately.
+    #[serde(default)]
+    via_cloud: bool,
+}
+
+#[derive(Serialize)]
+struct ClaimResponse {
+    ok: bool,
+    identity: String,
+    routing_addr: u16,
+    message: String,
 }
 
 pub async fn serve(
     bind: &str,
     registry: Arc<RwLock<DeviceRegistry>>,
     hub_identity: String,
+    stack: Arc<TerraLinkStack>,
+    cloud: Arc<CloudAgent>,
 ) -> anyhow::Result<()> {
     let state = AppState {
         hub_identity,
         registry,
+        stack,
+        cloud,
     };
     let app = Router::new()
         .route("/", get(index))
         .route("/api/status", get(status))
         .route("/api/setup", get(setup_placeholder))
+        .route("/api/devices/claim", post(claim_device))
         .layer(TraceLayer::new_for_http())
         .with_state(state);
 
@@ -577,6 +605,7 @@ async fn status(State(state): State<AppState>) -> Json<StatusResponse> {
                 ClaimState::Pending => "pending",
                 ClaimState::Claimed => "claimed",
             },
+            node_class: d.node_class,
         })
         .collect();
     Json(StatusResponse {
@@ -591,10 +620,51 @@ async fn setup_placeholder() -> Json<serde_json::Value> {
     Json(serde_json::json!({
         "steps": [
             "Set hub identity / hostname",
-            "Configure radio serial device",
+            "Configure radio serial device (radio.backend=uart, radio.device=/dev/ttyUSB0 or COM3)",
             "Pair with TerraTactics cloud (token exchange TBD)",
-            "Confirm TerraLink mesh hearability"
+            "Confirm TerraLink mesh hearability",
+            "Claim discovered nodes in TerraTactics cloud (or POST /api/devices/claim stub)"
         ],
-        "note": "Farm device claim UX is in the TerraTactics cloud, not this admin UI"
+        "note": "Farm device claim UX is in the TerraTactics cloud; this admin endpoint is a local stub"
     }))
+}
+
+/// Local stub for TerraTactics cloud claim → hub applies Configuration `0x07`.
+async fn claim_device(
+    State(state): State<AppState>,
+    Json(body): Json<ClaimRequest>,
+) -> Result<Json<ClaimResponse>, (StatusCode, Json<ClaimResponse>)> {
+    if body.via_cloud {
+        state
+            .cloud
+            .enqueue_claim(body.identity.clone(), body.routing_addr);
+        return Ok(Json(ClaimResponse {
+            ok: true,
+            identity: body.identity,
+            routing_addr: body.routing_addr,
+            message: "claim queued on cloud stub".into(),
+        }));
+    }
+
+    match state
+        .stack
+        .apply_claim(&body.identity, body.routing_addr)
+        .await
+    {
+        Ok(()) => Ok(Json(ClaimResponse {
+            ok: true,
+            identity: body.identity,
+            routing_addr: body.routing_addr,
+            message: "claimed and Configuration 0x07 sent".into(),
+        })),
+        Err(err) => Err((
+            StatusCode::BAD_REQUEST,
+            Json(ClaimResponse {
+                ok: false,
+                identity: body.identity,
+                routing_addr: body.routing_addr,
+                message: err.to_string(),
+            }),
+        )),
+    }
 }
