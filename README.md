@@ -42,6 +42,8 @@ cargo run -- --config config/terrahub.example.toml
 
 Admin UI (setup only): <http://127.0.0.1:8080/> — status JSON at `/api/status`.
 
+The local setup pages reuse TerraTactics visual tokens (olive / ivory / gold) and load **Jost** + **DM Sans** from Google Fonts when the hub has outbound HTTPS; without network they fall back to `system-ui` / `Segoe UI`.
+
 ### Debian / Raspberry Pi
 
 ```bash
