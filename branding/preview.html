@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>TerraTactics product branding preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Jost:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #17251D;
+      --olive: #344126;
+      --lime: #DDF34A;
+      --ivory: #F6F3EA;
+      --gold: #D9A521;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, #e7efc8 0%, transparent 55%),
+        var(--ivory);
+    }
+    header {
+      background: var(--olive);
+      color: #fff;
+      padding: 2rem 1.5rem 1.75rem;
+    }
+    header h1 {
+      font-family: Jost, system-ui, sans-serif;
+      font-weight: 400;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin: 0 0 .35rem;
+      color: var(--lime);
+    }
+    header p { margin: 0; opacity: .85; max-width: 40rem; }
+    main { padding: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    h2 {
+      font-family: Jost, system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 1.35rem;
+      margin: 2rem 0 .75rem;
+    }
+    .row { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card {
+      border: 1px solid #E1DACA;
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .card.dark { background: #1C2415; border-color: #2A351E; color: #fff; }
+    .card h3 {
+      font-family: Jost, system-ui, sans-serif;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin: 0 0 1rem;
+      color: var(--gold);
+    }
+    .card.dark h3 { color: var(--lime); }
+    .card img { display: block; max-width: 100%; height: auto; }
+    .marks { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; }
+    .marks figure { margin: 0; text-align: center; }
+    .marks figcaption {
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: .4rem;
+      opacity: .7;
+    }
+    .swatches { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .swatch {
+      width: 4.5rem; height: 4.5rem; border-radius: 8px;
+      border: 1px solid #CFC6B1;
+      display: grid; place-items: end start; padding: .35rem;
+      font-size: .65rem; font-family: Jost, sans-serif; letter-spacing: .04em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TerraTactics · branding</h1>
+    <p>Parent brand plus TerraHub and TerraLink. All marks share a lime disc + olive icon. TerraTactics is a hand-authored lightbulb (rim, fields, grain stalk, screw base) from the option-1 concept.</p>
+  </header>
+  <main>
+    <h2>Palette</h2>
+    <div class="swatches">
+      <div class="swatch" style="background:#DDF34A;color:#1C2415">Lime</div>
+      <div class="swatch" style="background:#344126;color:#fff">Olive</div>
+      <div class="swatch" style="background:#1C2415;color:#DDF34A">Olive 900</div>
+      <div class="swatch" style="background:#F6F3EA;color:#17251D">Ivory</div>
+      <div class="swatch" style="background:#D9A521;color:#fff">Gold</div>
+      <div class="swatch" style="background:#17251D;color:#fff">Ink</div>
+    </div>
+
+    <h2>TerraTactics</h2>
+    <div class="row">
+      <div class="card">
+        <h3>Logo · on light</h3>
+        <img src="terratactics/logo.svg" alt="TerraTactics logo" height="64"/>
+      </div>
+      <div class="card dark">
+        <h3>Logo · on dark</h3>
+        <img src="terratactics/logo-on-dark.svg" alt="TerraTactics logo on dark" height="64"/>
+      </div>
+      <div class="card">
+        <h3>Lockup · site / docs</h3>
+        <img src="terratactics/lockup.svg" alt="TerraTactics lockup" height="56"/>
+      </div>
+      <div class="card dark">
+        <h3>Lockup · on dark</h3>
+        <img src="terratactics/lockup-on-dark.svg" alt="TerraTactics lockup on dark" height="56"/>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem">
+      <h3>Marks &amp; icons</h3>
+      <div class="marks">
+        <figure><img src="terratactics/mark.svg" width="96" height="96" alt=""/><figcaption>mark 96</figcaption></figure>
+        <figure><img src="terratactics/png/mark-32.png" width="32" height="32" alt=""/><figcaption>32</figcaption></figure>
+        <figure><img src="terratactics/icon.svg" width="96" height="96" alt=""/><figcaption>org / favicon</figcaption></figure>
+        <figure><img src="terratactics/mark-dark.svg" width="72" height="72" alt=""/><figcaption>mono dark</figcaption></figure>
+        <figure style="background:#1C2415;padding:.75rem;border-radius:8px"><img src="terratactics/mark-light.svg" width="72" height="72" alt=""/><figcaption style="color:#fff">mono light</figcaption></figure>
+      </div>
+    </div>
+
+    <h2>TerraHub</h2>
+    <div class="row">
+      <div class="card">
+        <h3>Logo · on light</h3>
+        <img src="terrahub/logo.svg" alt="TerraHub logo" height="64"/>
+      </div>
+      <div class="card dark">
+        <h3>Logo · on dark</h3>
+        <img src="terrahub/logo-on-dark.svg" alt="TerraHub logo on dark" height="64"/>
+      </div>
+      <div class="card">
+        <h3>Lockup · README</h3>
+        <img src="terrahub/lockup.svg" alt="TerraHub lockup" height="56"/>
+      </div>
+      <div class="card dark">
+        <h3>Lockup · on dark</h3>
+        <img src="terrahub/lockup-on-dark.svg" alt="TerraHub lockup on dark" height="56"/>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem">
+      <h3>Marks &amp; icons</h3>
+      <div class="marks">
+        <figure><img src="terrahub/mark.svg" width="96" height="96" alt=""/><figcaption>mark 96</figcaption></figure>
+        <figure><img src="terrahub/png/mark-32.png" width="32" height="32" alt=""/><figcaption>32</figcaption></figure>
+        <figure><img src="terrahub/icon.svg" width="96" height="96" alt=""/><figcaption>app icon</figcaption></figure>
+        <figure><img src="terrahub/mark-dark.svg" width="72" height="72" alt=""/><figcaption>mono dark</figcaption></figure>
+        <figure style="background:#1C2415;padding:.75rem;border-radius:8px"><img src="terrahub/mark-light.svg" width="72" height="72" alt=""/><figcaption style="color:#fff">mono light</figcaption></figure>
+      </div>
+    </div>
+
+    <h2>TerraLink</h2>
+    <div class="row">
+      <div class="card">
+        <h3>Logo · on light</h3>
+        <img src="terralink/logo.svg" alt="TerraLink logo" height="64"/>
+      </div>
+      <div class="card dark">
+        <h3>Logo · on dark</h3>
+        <img src="terralink/logo-on-dark.svg" alt="TerraLink logo on dark" height="64"/>
+      </div>
+      <div class="card">
+        <h3>Lockup · README</h3>
+        <img src="terralink/lockup.svg" alt="TerraLink lockup" height="56"/>
+      </div>
+      <div class="card dark">
+        <h3>Lockup · on dark</h3>
+        <img src="terralink/lockup-on-dark.svg" alt="TerraLink lockup on dark" height="56"/>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem">
+      <h3>Marks &amp; icons</h3>
+      <div class="marks">
+        <figure><img src="terralink/mark.svg" width="96" height="96" alt=""/><figcaption>mark 96</figcaption></figure>
+        <figure><img src="terralink/png/mark-32.png" width="32" height="32" alt=""/><figcaption>32</figcaption></figure>
+        <figure><img src="terralink/icon.svg" width="96" height="96" alt=""/><figcaption>app icon</figcaption></figure>
+        <figure><img src="terralink/mark-dark.svg" width="72" height="72" alt=""/><figcaption>mono dark</figcaption></figure>
+        <figure style="background:#1C2415;padding:.75rem;border-radius:8px"><img src="terralink/mark-light.svg" width="72" height="72" alt=""/><figcaption style="color:#fff">mono light</figcaption></figure>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

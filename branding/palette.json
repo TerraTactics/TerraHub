@@ -1,0 +1,13 @@
+{
+  "ink": "#17251D",
+  "olive": "#344126",
+  "olive_900": "#1C2415",
+  "lime": "#DDF34A",
+  "ivory": "#F6F3EA",
+  "gold": "#D9A521",
+  "fonts": {
+    "display": "Jost",
+    "body": "DM Sans"
+  },
+  "source": "https://terratactics.com.au"
+}

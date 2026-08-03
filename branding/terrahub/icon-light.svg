@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="app icon">
+  <title>App icon</title>
+  <rect width="512" height="512" fill="#F6F3EA"/>
+  <circle cx="256.0" cy="256.0" r="194.56" fill="#DDF34A"/>
+  <line x1="256.00" y1="256.00" x2="256.00" y2="158.72" stroke="#1C2415" stroke-width="21.40" stroke-linecap="round"/>
+<line x1="256.00" y1="256.00" x2="353.28" y2="256.00" stroke="#1C2415" stroke-width="21.40" stroke-linecap="round"/>
+<line x1="256.00" y1="256.00" x2="256.00" y2="353.28" stroke="#1C2415" stroke-width="21.40" stroke-linecap="round"/>
+<line x1="256.00" y1="256.00" x2="158.72" y2="256.00" stroke="#1C2415" stroke-width="21.40" stroke-linecap="round"/>
+<circle cx="256.00" cy="256.00" r="46.69" fill="#1C2415"/>
+<circle cx="256.00" cy="158.72" r="34.05" fill="#1C2415"/>
+<circle cx="353.28" cy="256.00" r="34.05" fill="#1C2415"/>
+<circle cx="256.00" cy="353.28" r="34.05" fill="#1C2415"/>
+<circle cx="158.72" cy="256.00" r="34.05" fill="#1C2415"/>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="mark">
+  <title>Mark</title>
+  <circle cx="256.0" cy="256.0" r="225.28" fill="#F6F3EA"/>
+  <line x1="256.00" y1="174.90" x2="170.39" y2="319.08" stroke="#1C2415" stroke-width="22.53" stroke-linecap="round"/>
+<line x1="170.39" y1="319.08" x2="341.61" y2="319.08" stroke="#1C2415" stroke-width="22.53" stroke-linecap="round"/>
+<line x1="341.61" y1="319.08" x2="256.00" y2="174.90" stroke="#1C2415" stroke-width="22.53" stroke-linecap="round"/>
+<path d="M 218.03 143.04 A 49.56 49.56 0 0 1 293.97 143.04" fill="none" stroke="#1C2415" stroke-width="16.90" stroke-linecap="round"/>
+<path d="M 200.78 128.56 A 72.09 72.09 0 0 1 311.22 128.56" fill="none" stroke="#1C2415" stroke-width="16.90" stroke-linecap="round"/>
+<circle cx="256.00" cy="174.90" r="34.92" fill="#1C2415"/>
+<circle cx="170.39" cy="319.08" r="34.92" fill="#1C2415"/>
+<circle cx="341.61" cy="319.08" r="34.92" fill="#1C2415"/>
+</svg>

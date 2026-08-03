@@ -107,7 +107,10 @@ sudo cp systemd/terrahub.service /etc/systemd/system/
 ## Related projects
 
 - [TerraLink](https://github.com/TerraTactics/TerraLink) — mesh protocol and node firmware (Apache-2.0)
-- [TerraTactics cloud](https://terratactics.com.au) — commercial tenant portal / SaaS (separate product)
+- [TerraCloud](https://github.com/TerraTactics/TerraCloud) — Community Edition cloud portal (basics in progress; see its `docs/ROADMAP.md`)
+- [TerraTactics](https://terratactics.com.au) — product site
+
+FarmPilot.io under FarmPilotIO is queued **after** Terra basics — stand-alone rebrand with extra features; greenfield cloud only (do not touch live production).
 
 ## License
 
