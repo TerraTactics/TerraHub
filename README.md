@@ -1,4 +1,6 @@
-﻿# TerraHub
+> **Moved to FarmPilotIO:** active development continues at [FarmPilot Gateway](https://github.com/FarmPilotIO/FarmPilot-Gateway). This TerraTactics repository is retained for history.
+
+# TerraHub
 
 Open-source agricultural edge gateway from [TerraTactics](https://github.com/TerraTactics).
 
@@ -16,15 +18,15 @@ TerraHub runs on Debian-based SBCs (Raspberry Pi, Radxa, Orange Pi, and similar)
 
 ```
 TerraHub (Linux / Debian)
-├── radio/          RadioTransport — stub, UART loopback, or real serial
-├── stack/          TerraLink RX dispatch + claim → Configuration 0x07
-├── registry/       Discovered / claimed device table
-├── buffer/         SQLite offline telemetry queue
-├── cloud/          TerraTactics cloud MQTT agent placeholder + claim stub
-└── admin/          Local HTTP setup wizard (axum)
-         │
-         │ UART / USB-serial (length-prefixed TerraLink frames)
-         ▼
++-- radio/          RadioTransport � stub, UART loopback, or real serial
++-- stack/          TerraLink RX dispatch + claim ? Configuration 0x07
++-- registry/       Discovered / claimed device table
++-- buffer/         SQLite offline telemetry queue
++-- cloud/          TerraTactics cloud MQTT agent placeholder + claim stub
++-- admin/          Local HTTP setup wizard (axum)
+         �
+         � UART / USB-serial (length-prefixed TerraLink frames)
+         ?
    LoRa coprocessor (ESP32 + radio, etc.)
 ```
 
@@ -78,9 +80,9 @@ baud = 115200
 
 On-wire UART framing: little-endian `u16` length, then a complete TerraLink frame (header + payload + CRC-16/MODBUS).
 
-### Discovery → claim → config
+### Discovery ? claim ? config
 
-1. Node sends Discovery (`0x04`) → hub registry marks **pending**
+1. Node sends Discovery (`0x04`) ? hub registry marks **pending**
 2. TerraTactics cloud (or local `POST /api/devices/claim`) issues a claim with a routing address
 3. Hub sends Configuration (`0x07`) over the radio and marks the device **claimed**
 
@@ -106,11 +108,11 @@ sudo cp systemd/terrahub.service /etc/systemd/system/
 
 ## Related projects
 
-- [TerraLink](https://github.com/TerraTactics/TerraLink) — mesh protocol and node firmware (Apache-2.0)
-- [TerraCloud](https://github.com/TerraTactics/TerraCloud) — Community Edition cloud portal (basics in progress; see its `docs/ROADMAP.md`)
-- [TerraTactics](https://terratactics.com.au) — product site
+- [TerraLink](https://github.com/TerraTactics/TerraLink) � mesh protocol and node firmware (Apache-2.0)
+- [TerraCloud](https://github.com/TerraTactics/TerraCloud) � Community Edition cloud portal (basics in progress; see its `docs/ROADMAP.md`)
+- [TerraTactics](https://terratactics.com.au) � product site
 
-FarmPilot.io under FarmPilotIO is queued **after** Terra basics — stand-alone rebrand with extra features; greenfield cloud only (do not touch live production).
+FarmPilot.io under FarmPilotIO is queued **after** Terra basics � stand-alone rebrand with extra features; greenfield cloud only (do not touch live production).
 
 ## License
 
